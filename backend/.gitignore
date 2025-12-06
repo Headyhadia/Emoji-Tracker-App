@@ -1,0 +1,11 @@
+# environment variables
+*.env
+
+# Python cache files
+__pycache__/
+
+# Django migration files
+*/migrations/*.pyc
+
+# Database files
+*.sqlite3
