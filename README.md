@@ -14,7 +14,7 @@ This repository contains a full-stack Emoji Tracker Application with a Django RE
 ```
 root/
   backend/        # Django project (manage.py here)
-    .env.local    # environment variables used here
+    .env.example    # environment variables used here
     requirements.txt   # pip requirements (see below)
   frontend/       # React app (package.json here)
   src/            # React source (inside frontend)
