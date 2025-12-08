@@ -1,3 +1,19 @@
+.emojisList {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  width: 50%;
+  background-color: gray;
+  padding: 20px;
+  border-radius: 10px;
+}
+.emojiPic {
+  width: 90px;
+  border-radius: 100%;
+}
 li {
-  width: 200px;
+  background-color: white;
+  border-radius: 10px;
 }
