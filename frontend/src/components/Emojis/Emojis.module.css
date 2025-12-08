@@ -1,19 +1,38 @@
 .emojisList {
   list-style-type: none;
-  padding: 0;
   display: flex;
+  justify-content: center;
+  align-items: center;
   flex-wrap: wrap;
-  gap: 15px;
+  gap: 20px;
   width: 50%;
-  background-color: gray;
+  background-color: rgb(236, 247, 173);
   padding: 20px;
   border-radius: 10px;
 }
+.dots {
+  float: right;
+}
 .emojiPic {
-  width: 90px;
+  width: 60px;
   border-radius: 100%;
 }
 li {
   background-color: white;
   border-radius: 10px;
+  width: 130px;
+  height: 130px;
+  cursor: pointer;
+}
+.emotion {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 20px;
+  margin-left: 20px;
+}
+p {
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
 }

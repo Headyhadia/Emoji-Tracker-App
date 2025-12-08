@@ -17,17 +17,17 @@ root/
     .env.example    # environment variables used here
     requirements.txt   # pip requirements (see below)
   frontend/       # React app (package.json here)
-  src/            # React source (inside frontend)
-    components/
-      EmojiCounts/
-      Emojis/
-      TodoForm/
-      Navbar/
-      TodoList/
-    api/
-      api.js
-    App.jsx
-    App.css
+    src/            # React source (inside frontend)
+      api/
+        api.js
+      components/
+        EmojiCounts/
+        Emojis/
+        TodoForm/
+        Navbar/
+        TodoList/
+      App.jsx
+      App.css
 ```
 
 ## Local setup

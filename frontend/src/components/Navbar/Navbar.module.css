@@ -1,9 +1,10 @@
 .navbar {
-  background-color: black;
+  background-color: #a4ac00;
 }
 .title {
   text-align: center;
   color: white;
+  font-family: cursive;
 }
 a {
   text-decoration: none;
