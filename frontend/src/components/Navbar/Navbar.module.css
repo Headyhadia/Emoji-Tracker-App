@@ -1,5 +1,5 @@
 .navbar {
-  background-color: #a4ac00;
+  background-color: var(--color-primary);
 }
 .title {
   text-align: center;

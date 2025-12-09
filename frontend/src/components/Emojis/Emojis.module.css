@@ -1,3 +1,6 @@
+.emojisContainer {
+  width: 50%;
+}
 .emojisList {
   list-style-type: none;
   display: flex;
@@ -5,8 +8,8 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 20px;
-  width: 50%;
-  background-color: rgb(236, 247, 173);
+  width: 700px;
+  background-color: var(--color-secondary);
   padding: 20px;
   border-radius: 10px;
 }
