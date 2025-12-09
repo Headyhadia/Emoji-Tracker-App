@@ -1,5 +1,8 @@
 .emojisContainer {
-  width: 50%;
+  width: 700px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
 }
 .emojisList {
   list-style-type: none;
@@ -38,4 +41,7 @@ li {
 }
 p {
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+}
+
+@media screen {
 }
