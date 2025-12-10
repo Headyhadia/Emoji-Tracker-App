@@ -2,7 +2,7 @@ import styles from "./Emojis.module.css";
 
 const Emojis = () => {
   return (
-    <div classnmae={styles.emojisContainer}>
+    <div className={styles.emojisContainer}>
       <ul className={styles.emojisList}>
         <li>
           <a href="">

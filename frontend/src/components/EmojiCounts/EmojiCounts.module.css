@@ -1,5 +1,8 @@
 .countsBoard {
   width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .countList {
   display: flex;
@@ -33,4 +36,38 @@
   height: 18px;
   background-color: #bde038;
   border-radius: 40px;
+}
+@media (max-width: 400px) {
+  .countsBoard {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .countList {
+    width: 100%;
+    height: auto;
+    padding: 12px 8px;
+    border-radius: 8px;
+  }
+
+  .countItem {
+    height: auto;
+    gap: 10px;
+    padding: 4px;
+  }
+
+  .emoji {
+    width: 22px;
+    height: 22px;
+  }
+
+  .countBar {
+    width: 100%;
+    max-width: 200px;
+    height: 14px;
+  }
+
+  .countItem p {
+    font-size: 12px;
+  }
 }

@@ -1,11 +1,23 @@
 .homePage {
   display: flex;
   flex-direction: row;
-  gap: 10%;
+  gap: 90px;
   padding: 40px;
+  justify-content: center;
+  align-items: flex-start; /* prevents vertical drift */
 }
-/* @media screen and (max-width: 1280px) {
+
+/* Tablet and below */
+@media screen and (max-width: 1039px) {
+  .homePage {
+    gap: 40px; /* reduce spacing, keep layout */
+  }
+}
+
+/* Small phones */
+@media screen and (max-width: 990px) {
   .homePage {
     flex-direction: column;
+    align-items: center;
   }
-} */
+}
