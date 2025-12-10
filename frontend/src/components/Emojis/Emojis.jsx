@@ -1,213 +1,64 @@
+import { useState } from "react";
 import styles from "./Emojis.module.css";
 
+const emojiItems = [
+  { src: "./src/assets/happy-emoji.png", label: "Happy" },
+  { src: "./src/assets/crying-emoji.png", label: "Crying" },
+  { src: "./src/assets/angry_emoji.png", label: "Angry" },
+  { src: "./src/assets/sad-emoji.png", label: "Sad" },
+  { src: "./src/assets/hero-emoji.png", label: "Hero" },
+  { src: "./src/assets/shocked-emoji.png", label: "Shocked" },
+  { src: "./src/assets/smirk-emoji.png", label: "Smirk" },
+  { src: "./src/assets/thinking-emoji.png", label: "Thinking" },
+  { src: "./src/assets/yummy-emoji.png", label: "Yummy" },
+  { src: "./src/assets/heart-eyes.png", label: "Lovely" },
+  { src: "./src/assets/wink.png", label: "Wink" },
+  { src: "./src/assets/laughing-with-tears-emoji.png", label: "LOL" },
+];
+
 const Emojis = () => {
+  const [openIndex, setOpenIndex] = useState(null);
+
+  const handleDotsClick = (index, e) => {
+    e.preventDefault();
+    setOpenIndex(openIndex === index ? null : index);
+  };
+
+  const handleReset = (index) => {
+    console.log("Reset clicked for:", emojiItems[index].label);
+    setOpenIndex(null);
+  };
+
   return (
     <div className={styles.emojisContainer}>
       <ul className={styles.emojisList}>
-        <li>
-          <a href="">
-            <img
-              className={styles.dots}
-              src="./src/assets/3dots.png"
-              alt="menu"
-            />
-          </a>
-          <div className={styles.emotion}>
-            <img
-              className={styles.emojiPic}
-              src="./src/assets/happy-emoji.png"
-              alt="Happy Emoji"
-            />
-            <p>Happy</p>
-          </div>
-        </li>
-        <li>
-          <a href="">
-            <img
-              className={styles.dots}
-              src="./src/assets/3dots.png"
-              alt="menu"
-            />
-          </a>
-          <div className={styles.emotion}>
-            <img
-              className={styles.emojiPic}
-              src="./src/assets/crying-emoji.png"
-              alt="Crying Emoji"
-            />
-            <p>Crying</p>
-          </div>
-        </li>
-        <li>
-          <a href="">
-            <img
-              className={styles.dots}
-              src="./src/assets/3dots.png"
-              alt="menu"
-            />
-          </a>
-          <div className={styles.emotion}>
-            <img
-              className={styles.emojiPic}
-              src="./src/assets/angry_emoji.png"
-              alt="Angry Emoji"
-            />
-            <p>Angry</p>
-          </div>
-        </li>
-        <li>
-          <a href="">
-            <img
-              className={styles.dots}
-              src="./src/assets/3dots.png"
-              alt="menu"
-            />
-          </a>
-          <div className={styles.emotion}>
-            <img
-              className={styles.emojiPic}
-              src="./src/assets/sad-emoji.png"
-              alt="Sad Emoji"
-            />
-            <p>Sad</p>
-          </div>
-        </li>
-        <li>
-          <a href="">
-            <img
-              className={styles.dots}
-              src="./src/assets/3dots.png"
-              alt="menu"
-            />
-          </a>
-          <div className={styles.emotion}>
-            <img
-              className={styles.emojiPic}
-              src="./src/assets/hero-emoji.png"
-              alt="Hero Emoji"
-            />
-            <p>Hero</p>
-          </div>
-        </li>
-        <li>
-          <a href="">
-            <img
-              className={styles.dots}
-              src="./src/assets/3dots.png"
-              alt="menu"
-            />
-          </a>
-          <div className={styles.emotion}>
-            <img
-              className={styles.emojiPic}
-              src="./src/assets/shocked-emoji.png"
-              alt="Shocked Emoji"
-            />
-            <p>Shocked</p>
-          </div>
-        </li>
-        <li>
-          <a href="">
-            <img
-              className={styles.dots}
-              src="./src/assets/3dots.png"
-              alt="menu"
-            />
-          </a>
-          <div className={styles.emotion}>
-            <img
-              className={styles.emojiPic}
-              src="./src/assets/smirk-emoji.png"
-              alt="Smirk Emoji"
-            />
-            <p>Smirk</p>
-          </div>
-        </li>
-        <li>
-          <a href="">
-            <img
-              className={styles.dots}
-              src="./src/assets/3dots.png"
-              alt="menu"
-            />
-          </a>
-          <div className={styles.emotion}>
-            <img
-              className={styles.emojiPic}
-              src="./src/assets/thinking-emoji.png"
-              alt="Thinking Emoji"
-            />
-            <p>Thinking</p>
-          </div>
-        </li>
-        <li>
-          <a href="">
-            <img
-              className={styles.dots}
-              src="./src/assets/3dots.png"
-              alt="menu"
-            />
-          </a>
-          <div className={styles.emotion}>
-            <img
-              className={styles.emojiPic}
-              src="./src/assets/yummy-emoji.png"
-              alt="Yummy Emoji"
-            />
-            <p>Yummy</p>
-          </div>
-        </li>
-        <li>
-          <a href="">
-            <img
-              className={styles.dots}
-              src="./src/assets/3dots.png"
-              alt="menu"
-            />
-          </a>
-          <div className={styles.emotion}>
-            <img
-              className={styles.emojiPic}
-              src="./src/assets/heart-eyes.png"
-              alt="Heart Eyes Emoji"
-            />
-            <p>Lovely</p>
-          </div>
-        </li>
-        <li>
-          <a href="">
-            <img
-              className={styles.dots}
-              src="./src/assets/3dots.png"
-              alt="menu"
-            />
-          </a>
-          <div className={styles.emotion}>
-            <img
-              className={styles.emojiPic}
-              src="./src/assets/wink.png"
-              alt="Crazy Emoji"
-            />
-            <p>Wink</p>
-          </div>
-        </li>
-        <li>
-          <a href="">
-            <img
-              className={styles.dots}
-              src="./src/assets/3dots.png"
-              alt="menu"
-            />
-          </a>
-          <div className={styles.emotion}>
-            <img
-              className={styles.emojiPic}
-              src="./src/assets/laughing-with-tears-emoji.png"
-              alt="Laughing with tears emoji"
-            />
-            <p>LOL</p>
-          </div>
-        </li>
+        {emojiItems.map((it, i) => (
+          <li key={i}>
+            <a href="#" onClick={(e) => handleDotsClick(i, e)}>
+              <img
+                className={styles.dots}
+                src="./src/assets/3dots.png"
+                alt="menu"
+              />
+            </a>
+
+            {openIndex === i && (
+              <div className={styles.menuBox}>
+                <button
+                  className={styles.menuItem}
+                  onClick={() => handleReset(i)}
+                >
+                  Reset
+                </button>
+              </div>
+            )}
+
+            <div className={styles.emotion}>
+              <img className={styles.emojiPic} src={it.src} alt={it.label} />
+              <p>{it.label}</p>
+            </div>
+          </li>
+        ))}
       </ul>
     </div>
   );
