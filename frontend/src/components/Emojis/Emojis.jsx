@@ -1,7 +1,7 @@
-// Emojis.jsx
+// Emojis.jsx — UI unchanged, API integration added
 import { useEffect, useState } from "react";
 import styles from "./Emojis.module.css";
-import API from "@/api/api"; // adjust path if your alias differs
+import API from "@/api/api"; // axios instance (same as you used elsewhere)
 
 const emojiItems = [
   { src: "./src/assets/happy-emoji.png", label: "Happy" },
@@ -18,37 +18,25 @@ const emojiItems = [
   { src: "./src/assets/laughing-with-tears-emoji.png", label: "LOL" },
 ];
 
-const normalizeLabel = (s) =>
-  typeof s === "string" ? s.trim().toLowerCase() : "";
+const normalize = (s = "") => String(s).trim().toLowerCase();
 
 const Emojis = () => {
   const [openIndex, setOpenIndex] = useState(null);
-  // map labelLower -> { id, count }
-  const [serverMap, setServerMap] = useState({});
-  // per-item loading map by labelLower to avoid double clicks
-  const [loadingMap, setLoadingMap] = useState({});
+  const [serverData, setServerData] = useState([]); // raw array from server
+  const [loadingMap, setLoadingMap] = useState({}); // prevent double clicks per-label
 
-  // fetch server data and store mapping by label (lowercase)
+  // Fetch server rows on mount
   useEffect(() => {
     let mounted = true;
     (async () => {
       try {
-        const res = await API.get("emojis/"); // expects array
+        const res = await API.get("emojis/"); // default DRF list endpoint
         if (!mounted) return;
         const data = res?.data ?? res;
-        const map = {};
-        (data || []).forEach((item) => {
-          // item may have label or emoji field — try both
-          const label = normalizeLabel(
-            item.label ?? item.emoji ?? item.name ?? ""
-          );
-          if (!label) return;
-          map[label] = { id: item.id, count: Number(item.count ?? 0) };
-        });
-        setServerMap(map);
+        setServerData(Array.isArray(data) ? data : []);
       } catch (err) {
-        // keep silent
-        console.error("Failed to fetch emoji counts:", err);
+        console.error("Failed to fetch emojis from server:", err);
+        setServerData([]); // keep app functional
       }
     })();
     return () => {
@@ -56,8 +44,8 @@ const Emojis = () => {
     };
   }, []);
 
-  const setItemLoading = (labelKey, v) =>
-    setLoadingMap((m) => ({ ...m, [labelKey]: !!v }));
+  const setItemLoading = (key, v) =>
+    setLoadingMap((m) => ({ ...m, [key]: !!v }));
 
   const handleDotsClick = (index, e) => {
     e.preventDefault();
@@ -65,100 +53,129 @@ const Emojis = () => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
-  // increment handler: optimistic, then PATCH server
+  // Find server row for a given label (tries several heuristics)
+  const findServerRowForLabel = (label) => {
+    const n = normalize(label);
+    // try direct match on server `emoji` field or `label`
+    let found = serverData.find(
+      (row) =>
+        normalize(row.emoji) === n ||
+        normalize(row.label) === n ||
+        // maybe server stores names with spaces/hyphens; compare normalized textual form
+        normalize(String(row.emoji || row.label || "")) === n
+    );
+    if (found) return found;
+    // fallback: try case-insensitive partial match
+    found = serverData.find((row) =>
+      String(row.emoji || row.label || "")
+        .toLowerCase()
+        .includes(n)
+    );
+    return found || null;
+  };
+
+  // Safe create server row when missing. Returns the created row object.
+  const createServerRow = async (label, initialCount = 1) => {
+    const payload = { emoji: label, count: initialCount }; // adjust fields if serializer differs
+    const res = await API.post("emojis/", payload);
+    const created = res?.data ?? res;
+    // append to local serverData
+    setServerData((cur) => [...cur, created]);
+    return created;
+  };
+
+  // Increment logic: optimistic-ish, creates the row if missing
   const handleIncrement = async (index, e) => {
-    // no UI changes — this only updates server state and internal mapping
     e?.preventDefault?.();
     e?.stopPropagation?.();
 
-    const label = normalizeLabel(emojiItems[index].label);
-    const serverItem = serverMap[label];
-
-    // if server doesn't have this emoji entry, we can't increment reliably
-    if (!serverItem) {
-      console.warn(`No server entry found for "${emojiItems[index].label}".`);
-      return;
-    }
-
-    if (loadingMap[label]) return; // already in-flight
-
-    const prevCount = serverItem.count ?? 0;
-    const optimistic = prevCount + 1;
-
-    // optimistic local update
-    setServerMap((m) => ({
-      ...m,
-      [label]: { ...m[label], count: optimistic },
-    }));
-    setItemLoading(label, true);
+    const label = emojiItems[index].label;
+    const key = normalize(label);
+    if (loadingMap[key]) return; // request in-flight
+    setItemLoading(key, true);
 
     try {
-      // PATCH /api/emojis/<id>/ with new count
-      const res = await API.patch(`emojis/${serverItem.id}/`, {
-        count: optimistic,
-      });
-      const updated = (res?.data ?? res) || {};
-      const newCount = Number(updated.count ?? optimistic);
-      setServerMap((m) => ({
-        ...m,
-        [label]: { id: serverItem.id, count: newCount },
-      }));
+      let row = findServerRowForLabel(label);
 
-      // useful hook: notify other parts of app (optional)
+      if (!row) {
+        // If row missing, create it with count=1 so click has immediate effect.
+        // That avoids needing a separate seeding step.
+        row = await createServerRow(label, 1);
+        // dispatch update event (optional)
+        window.dispatchEvent(
+          new CustomEvent("emojiCountsUpdated", {
+            detail: {
+              label: normalize(label),
+              id: row.id,
+              count: Number(row.count || 0),
+            },
+          })
+        );
+        setItemLoading(key, false);
+        return;
+      }
+
+      // optimistic new count
+      const prevCount = Number(row.count ?? 0);
+      const newCount = prevCount + 1;
+
+      // Update server (PATCH)
+      const res = await API.patch(`emojis/${row.id}/`, { count: newCount });
+      const updated = res?.data ?? res;
+      // update our local serverData cache with authoritative server response
+      setServerData((cur) =>
+        cur.map((r) => (r.id === row.id ? { ...r, ...updated } : r))
+      );
+
+      // notify other parts (your countboard can listen and refetch or respond)
       window.dispatchEvent(
         new CustomEvent("emojiCountsUpdated", {
-          detail: { label, id: serverItem.id, count: newCount },
+          detail: {
+            label: normalize(label),
+            id: row.id,
+            count: Number(updated.count ?? newCount),
+          },
         })
       );
     } catch (err) {
-      // rollback
-      setServerMap((m) => ({
-        ...m,
-        [label]: { ...m[label], count: prevCount },
-      }));
-      console.error("Failed to increment on server:", err);
+      console.error("Failed to increment emoji on server:", err);
     } finally {
-      setItemLoading(label, false);
+      setItemLoading(key, false);
     }
   };
 
-  // reset handler: set count to 0
+  // Reset count to zero (if row missing, just close menu)
   const handleReset = async (index) => {
-    const label = normalizeLabel(emojiItems[index].label);
-    const serverItem = serverMap[label];
-    if (!serverItem) {
-      console.warn(`No server entry found for "${emojiItems[index].label}".`);
+    const label = emojiItems[index].label;
+    const key = normalize(label);
+    const row = findServerRowForLabel(label);
+    if (!row) {
+      console.warn(`No server entry found for "${label}".`);
       setOpenIndex(null);
       return;
     }
-    if (loadingMap[label]) return;
-
-    const prevCount = serverItem.count ?? 0;
-    setServerMap((m) => ({ ...m, [label]: { ...m[label], count: 0 } }));
-    setItemLoading(label, true);
+    if (loadingMap[key]) return;
+    setItemLoading(key, true);
 
     try {
-      const res = await API.patch(`emojis/${serverItem.id}/`, { count: 0 });
-      const updated = (res?.data ?? res) || {};
-      const newCount = Number(updated.count ?? 0);
-      setServerMap((m) => ({
-        ...m,
-        [label]: { id: serverItem.id, count: newCount },
-      }));
+      const res = await API.patch(`emojis/${row.id}/`, { count: 0 });
+      const updated = res?.data ?? res;
+      setServerData((cur) =>
+        cur.map((r) => (r.id === row.id ? { ...r, ...updated } : r))
+      );
       window.dispatchEvent(
         new CustomEvent("emojiCountsUpdated", {
-          detail: { label, id: serverItem.id, count: newCount },
+          detail: {
+            label: normalize(label),
+            id: row.id,
+            count: Number(updated.count ?? 0),
+          },
         })
       );
     } catch (err) {
-      // rollback
-      setServerMap((m) => ({
-        ...m,
-        [label]: { ...m[label], count: prevCount },
-      }));
-      console.error("Failed to reset on server:", err);
+      console.error("Failed to reset emoji on server:", err);
     } finally {
-      setItemLoading(label, false);
+      setItemLoading(key, false);
       setOpenIndex(null);
     }
   };
@@ -181,7 +198,7 @@ const Emojis = () => {
                 <button
                   className={styles.menuItem}
                   onClick={() => handleReset(i)}
-                  disabled={!!loadingMap[normalizeLabel(it.label)]}
+                  disabled={!!loadingMap[normalize(it.label)]}
                 >
                   Reset
                 </button>
