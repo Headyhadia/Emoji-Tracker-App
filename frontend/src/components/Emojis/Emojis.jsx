@@ -21,8 +21,11 @@ const Emojis = ({ emojis, incrementEmoji, resetEmoji }) => {
   const [openIndex, setOpenIndex] = useState(null);
   const safeEmojis = Array.isArray(emojis) ? emojis : [];
 
-  const getEmojiFromServer = (label) =>
-    safeEmojis.find((e) => e.emoji.toLowerCase() === label.toLowerCase());
+  const getEmojiFromServer = (label) => {
+    return safeEmojis.find(
+      (e) => e.emoji?.toLowerCase() === label.toLowerCase()
+    );
+  };
 
   return (
     <div className={styles.emojisContainer}>
@@ -52,14 +55,18 @@ const Emojis = ({ emojis, incrementEmoji, resetEmoji }) => {
                   </button>
                 </div>
               )}
-
-              <div className={styles.emotion}>
-                <img
-                  className={styles.emojiPic}
-                  src={it.src}
-                  alt={it.label}
-                  onClick={() => serverEmoji && incrementEmoji(serverEmoji.id)}
-                />
+              <div
+                className={styles.emotion}
+                onClick={() => {
+                  if (serverEmoji) {
+                    incrementEmoji(serverEmoji.id);
+                  } else {
+                    console.warn("No matching emoji on server for", it.label);
+                  }
+                }}
+                style={{ cursor: "pointer" }}
+              >
+                <img className={styles.emojiPic} src={it.src} alt={it.label} />
                 <p>{it.label}</p>
               </div>
             </li>
