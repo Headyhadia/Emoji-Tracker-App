@@ -22,7 +22,8 @@ function App() {
     setError(null);
     try {
       const res = await API.get("emojis/");
-      setEmojis(res.data || []);
+      const data = res.data?.results ?? res.data ?? [];
+      setEmojis(Array.isArray(data) ? data : []);
     } catch (err) {
       setError(err);
       console.error("Failed to fetch emojis:", err);
@@ -38,7 +39,9 @@ function App() {
       try {
         const res = await API.get("emojis/");
         if (!mounted) return;
-        setEmojis(res.data || []);
+        const data = res.data?.results ?? res.data ?? [];
+        setEmojis(Array.isArray(data) ? data : []);
+
         setError(null);
       } catch (err) {
         if (!mounted) return;

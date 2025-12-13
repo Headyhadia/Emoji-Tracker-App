@@ -14,12 +14,8 @@ const HomePage = (props) => {
     <div className={styles.homePage}>
       <Emojis
         emojis={props.emojis}
-        loading={props.loading}
-        itemLoadingMap={props.itemLoadingMap}
         incrementEmoji={props.incrementEmoji}
         resetEmoji={props.resetEmoji}
-        deleteEmoji={props.deleteEmoji}
-        refreshEmojis={props.refreshEmojis}
       />
       <EmojiCounts emojis={props.emojis} />
     </div>
