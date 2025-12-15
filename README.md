@@ -21,11 +21,9 @@ root/
       api/
         api.js
       components/
-        EmojiCounts/
-        Emojis/
-        TodoForm/
+        Tracker/
+        DefaultEmoji/
         Navbar/
-        TodoList/
       App.jsx
       App.css
 ```

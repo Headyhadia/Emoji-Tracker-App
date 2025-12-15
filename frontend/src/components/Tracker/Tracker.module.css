@@ -1,0 +1,10 @@
+.trackerContainer {
+  max-width: 730px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.emojiCalender {
+  border: 1px solid black;
+}

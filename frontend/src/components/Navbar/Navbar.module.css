@@ -1,11 +1,24 @@
 .navbar {
   background-color: var(--color-primary);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 10px;
 }
 .title {
+  margin-left: 10px;
   text-align: center;
   color: white;
   font-family: cursive;
 }
 a {
   text-decoration: none;
+}
+img {
+  margin: 10px;
+  width: 32px;
+  cursor: pointer;
+}
+.options {
+  padding: 0 10px;
 }

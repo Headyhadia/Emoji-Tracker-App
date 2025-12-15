@@ -1,0 +1,12 @@
+.defaultEmojiContainer {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+@media (max-width: 400px) {
+  .defaultEmojiContainer {
+    width: 100%;
+    padding: 10px;
+  }
+}
