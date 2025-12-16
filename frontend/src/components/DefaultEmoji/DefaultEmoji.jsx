@@ -9,7 +9,7 @@ const DefaultEmoji = () => {
       <div className={styles.headingBtnContainer}>
         <h2>DEFAULT EMOJI</h2>
         <FormControlLabel
-          className={styles.switch}
+          className={styles.switchRoot}
           control={
             <Switch
               checked={enabled}
