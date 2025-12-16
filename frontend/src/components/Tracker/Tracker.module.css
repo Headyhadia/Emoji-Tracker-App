@@ -2,9 +2,121 @@
   max-width: 730px;
   width: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 10px 5px 9px rgb(156, 156, 156);
 }
-.emojiCalender {
-  border: 1px solid black;
+.calendar {
+  display: grid;
+  gap: 12px;
+  box-shadow: 4px 3px 8px #e9e8e8;
+  margin-top: 20px;
+  padding: 10px;
+  border-radius: 8px;
+  width: 90%;
+}
+
+.calendarHeader {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  font-weight: bold;
+  text-align: center;
+  color: var(--color-primary);
+  font-family: cursive;
+}
+
+.calendarBody {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.day {
+  border: 1px solid #ccc;
+  min-height: 75px;
+  min-width: 75px;
+  position: relative;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.dayNumber {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  font-size: 0.8em;
+  color: #555;
+}
+
+.day img {
+  max-width: 80%;
+  height: auto;
+  display: block;
+  margin: 20px auto 0;
+}
+.currentDate {
+  margin: 10px 0 0 35px;
+  display: flex;
+  align-self: self-start;
+  font-family: cursive;
+  border: 1px solid #ccc;
+  color: #696868;
+  padding: 10px;
+  width: 60%;
+  border-radius: 8px;
+}
+.feeling {
+  border: 1px solid #ccc;
+  display: flex;
+  flex-direction: row;
+  width: 60%;
+  border-radius: 8px;
+  display: flex;
+  align-self: self-start;
+  margin: 10px 0 0 35px;
+}
+.feeling h4 {
+  background-color: #e9e8e8;
+  padding: 10px;
+  border-radius: 8px;
+  font-family: cursive;
+  color: var(--color-primary);
+}
+.emojis {
+  display: flex;
+  align-self: self-start;
+  margin: 6px 0 0 35px;
+}
+.saveBtn {
+  width: 85px;
+  height: 35px;
+  border-radius: 10px;
+  display: flex;
+  align-self: flex-end;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background-color: var(--color-primary);
+  color: white;
+  font-family: cursive;
+}
+.grayEmojis img {
+  width: 25px;
+  filter: grayscale(100%);
+  opacity: 0.6;
+}
+.selectedEmoji {
+  background-color: #ddd;
+  border-radius: 8px;
+}
+.grayEmojis .emojiPic[data-selected="true"] {
+  filter: none;
+  opacity: 1;
+}
+.emojis .emojiPic[data-selected="true"] {
+  background-color: #ddd;
+  border-radius: 8px;
 }

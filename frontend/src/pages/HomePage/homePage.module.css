@@ -5,6 +5,7 @@
   padding: 40px;
   justify-content: center;
   align-items: flex-start; /* prevents vertical drift */
+  background-color: #dad7d7;
 }
 
 /* Tablet and below */
