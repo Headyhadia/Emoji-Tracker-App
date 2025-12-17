@@ -22,3 +22,8 @@
     align-items: center;
   }
 }
+@media screen and (max-width: 428px) {
+  .homePage {
+    padding: 10px;
+  }
+}

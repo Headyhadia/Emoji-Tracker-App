@@ -17,7 +17,7 @@
   margin-top: 20px;
   padding: 10px;
   border-radius: 8px;
-  width: 90%;
+  width: auto;
 }
 
 .calendarHeader {
@@ -65,14 +65,14 @@
   border: 1px solid #ccc;
   color: #696868;
   padding: 10px;
-  width: 60%;
+  min-width: 60%;
   border-radius: 8px;
 }
 .feeling {
   border: 1px solid #ccc;
   display: flex;
   flex-direction: row;
-  width: 60%;
+  min-width: 60%;
   border-radius: 8px;
   display: flex;
   align-self: self-start;
@@ -102,6 +102,7 @@
   background-color: var(--color-primary);
   color: white;
   font-family: cursive;
+  margin-top: -35px;
 }
 .grayEmojis img {
   width: 25px;
@@ -119,4 +120,112 @@
 .emojis .emojiPic[data-selected="true"] {
   background-color: #ddd;
   border-radius: 8px;
+}
+
+@media screen and (max-width: 660px) {
+  .trackerContainer {
+    padding: 10px;
+  }
+
+  .calendar {
+    width: 100%;
+    padding: 6px;
+    gap: 6px;
+  }
+
+  .calendarHeader {
+    font-size: 0.7rem;
+  }
+
+  .calendarBody {
+    gap: 4px;
+  }
+
+  .day {
+    min-width: unset;
+    min-height: 55px;
+    padding: 2px;
+  }
+
+  .dayNumber {
+    font-size: 0.7em;
+  }
+
+  .day img {
+    max-width: 70%;
+    margin-top: 14px;
+  }
+
+  .currentDate,
+  .feeling,
+  .emojis {
+    margin: 10px 0 0 0;
+    min-width: 100%;
+    align-self: center;
+  }
+
+  .feeling {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .feeling h4 {
+    text-align: center;
+  }
+
+  .grayEmojis img,
+  .emojis img {
+    width: 22px;
+  }
+
+  .saveBtn {
+    margin-top: 12px;
+    align-self: center;
+  }
+}
+@media screen and (max-width: 385px) {
+  .calendarHeader {
+    font-size: 0.6rem;
+  }
+
+  .calendar {
+    padding: 4px;
+    gap: 4px;
+  }
+
+  .calendarBody {
+    gap: 2px;
+  }
+
+  .day {
+    min-height: 42px;
+    padding: 1px;
+  }
+
+  .dayNumber {
+    font-size: 0.65em;
+  }
+
+  .day img {
+    max-width: 65%;
+    margin-top: 10px;
+  }
+
+  .grayEmojis img,
+  .emojis img {
+    width: 20px;
+  }
+
+  .currentDate,
+  .feeling,
+  .emojis {
+    font-size: 0.85rem;
+    padding: 6px;
+  }
+
+  .saveBtn {
+    width: 80px;
+    height: 32px;
+    font-size: 0.85rem;
+  }
 }

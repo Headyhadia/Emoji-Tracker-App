@@ -22,3 +22,23 @@ img {
 .options {
   padding: 0 10px;
 }
+
+@media screen and (max-width: 455px) {
+  .navbar {
+    padding: 6px 8px;
+  }
+
+  .title {
+    font-size: 1.1rem;
+    margin-left: 6px;
+  }
+
+  .options {
+    padding: 0 4px;
+  }
+
+  img {
+    width: 22px;
+    margin: 6px;
+  }
+}

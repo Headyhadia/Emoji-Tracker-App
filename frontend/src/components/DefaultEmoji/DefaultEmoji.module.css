@@ -1,13 +1,16 @@
 .defaultEmojiContainer {
   width: 50%;
+  height: 650px;
   display: flex;
-  justify-content: center;
   align-items: center;
+  flex-direction: column;
   background-color: white;
   border-radius: 10px;
+  box-shadow: 10px 5px 9px rgb(156, 156, 156);
 }
 .headingBtnContainer {
-  margin-top: 30px;
+  margin: 20px;
+  padding: 15px;
   width: 100%;
   display: flex;
   align-items: center;
@@ -24,10 +27,58 @@ h2 {
 .switchRoot :global(.MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track) {
   background-color: var(--color-primary);
 }
+.defaultDesc {
+  margin: 20px;
+  font-family: cursive;
+  color: var(--color-secondary);
+}
+.smiley {
+  width: 250px;
+  margin: 25px;
+}
+.noDefaultEmoji {
+  filter: grayscale(100%);
+  margin: 25px;
 
-/* @media (max-width: 400px) {
+  width: 250px;
+}
+.noteHeading {
+  font-family: cursive;
+  color: var(--color-secondary);
+  margin: 10px;
+}
+.noteEntry {
+  margin: 10px;
+  padding: 10px;
+  width: 360px;
+  height: 30px;
+  border-radius: 6px;
+}
+.lineEmojiContainer {
+  margin: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+@media screen and (max-width: 750px) {
   .defaultEmojiContainer {
-    width: 100%;
+    width: 85%;
+    min-width: 320px;
+    height: auto;
+    padding-bottom: 20px;
+  }
+
+  .headingBtnContainer {
     padding: 10px;
   }
-} */
+
+  .smiley,
+  .noDefaultEmoji {
+    width: 200px;
+  }
+
+  .lineEmojiContainer {
+    margin: 10px;
+  }
+}

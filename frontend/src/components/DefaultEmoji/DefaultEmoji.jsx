@@ -18,6 +18,14 @@ const DefaultEmoji = () => {
           }
         />
       </div>
+      <div className={styles.lineEmojiContainer}>
+        <h4 className={styles.defaultDesc}>Set as default for missed days</h4>
+        <img
+          className={enabled ? styles.smiley : styles.noDefaultEmoji}
+          src="src/assets/good.png"
+          alt="smiley"
+        />
+      </div>
     </div>
   );
 };
