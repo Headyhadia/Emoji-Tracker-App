@@ -183,6 +183,27 @@
     align-self: center;
   }
 }
+/* ---- react-calendar: navigation only ---- */
+:global(.react-calendar__month-view),
+:global(.react-calendar__month-view__days),
+:global(.react-calendar__month-view__weekdays) {
+  display: none;
+}
+
+/* keep navigation visible */
+:global(.react-calendar__navigation) {
+  display: flex;
+}
+
+/* basic wrapper cleanup */
+:global(.react-calendar) {
+  border: none;
+  width: 100%;
+}
+.hiddenCalendar {
+  display: none;
+}
+
 @media screen and (max-width: 385px) {
   .calendarHeader {
     font-size: 0.6rem;

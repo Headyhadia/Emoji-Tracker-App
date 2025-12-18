@@ -1,17 +1,19 @@
 import styles from "./Tracker.module.css";
 import { useState } from "react";
+import Calendar from "react-calendar";
 
 const Tracker = () => {
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = today.getMonth(); // 0-based
-  const todayDate = today.getDate();
-
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedEmoji, setSelectedEmoji] = useState(null);
   const [images, setImages] = useState({});
 
-  const firstDayOfMonth = new Date(year, month, 1);
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const today = new Date();
+  const selectedYear = selectedDate.getFullYear();
+  const selectedMonth = selectedDate.getMonth(); // 0-based
+  const todayDate = today.getDate();
+
+  const firstDayOfMonth = new Date(selectedYear, selectedMonth, 1);
+  const daysInMonth = new Date(selectedYear, selectedMonth + 1, 0).getDate();
   // Array of weekdays to map days from date object
   const weekdays = [
     "Monday",
@@ -60,15 +62,48 @@ const Tracker = () => {
   const handleSaveEntry = () => {
     if (!selectedEmoji) return;
 
+    const dateKey = selectedDate.toISOString().split("T")[0];
+
     setImages((prev) => ({
       ...prev,
-      [todayDate]: selectedEmoji,
+      [dateKey]: selectedEmoji,
     }));
   };
 
   return (
     <div className={styles.trackerContainer}>
       <div className={styles.calendar}>
+        <Calendar
+          value={selectedDate}
+          onChange={setSelectedDate}
+          view="month"
+          className={styles.hiddenCalendar}
+        />
+        <div className={styles.monthNav}>
+          <button
+            onClick={() =>
+              setSelectedDate(new Date(selectedYear, selectedMonth - 1, 1))
+            }
+          >
+            ‹
+          </button>
+
+          <span>
+            {selectedDate.toLocaleString("default", {
+              month: "long",
+              year: "numeric",
+            })}
+          </span>
+
+          <button
+            onClick={() =>
+              setSelectedDate(new Date(selectedYear, selectedMonth + 1, 1))
+            }
+          >
+            ›
+          </button>
+        </div>
+
         {/* Days header */}
         <div className={styles.calendarHeader}>
           {weekdays.map((d) => (
@@ -101,6 +136,7 @@ const Tracker = () => {
       </div>
       {/* Emojis to enter mood */}
       <div className={styles.emojis}>{emojis}</div>
+
       {/* Button to save entry */}
       <button className={styles.saveBtn} onClick={handleSaveEntry}>
         Save Entry
