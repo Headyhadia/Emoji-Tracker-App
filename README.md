@@ -56,6 +56,16 @@ python manage.py runserver 127.0.0.1:8000
 
 4. Confirm the API works: open `http://127.0.0.1:8000/api/emojis/` in your browser
 
+5. ### Seed Data (Development)
+
+This project includes a custom Django management command to seed emoji entries for the last 30 days.
+
+Run:
+
+```bash
+python manage.py seed_30_days_emojis
+```
+
 ## Frontend
 
 ```bash

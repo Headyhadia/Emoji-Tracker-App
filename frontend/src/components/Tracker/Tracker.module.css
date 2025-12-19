@@ -183,6 +183,9 @@
     align-self: center;
   }
 }
+.hiddenCalendar {
+  display: none;
+}
 /* ---- react-calendar: navigation only ---- */
 :global(.react-calendar__month-view),
 :global(.react-calendar__month-view__days),
@@ -193,15 +196,32 @@
 /* keep navigation visible */
 :global(.react-calendar__navigation) {
   display: flex;
+  align-items: center;
+  width: 100%;
+}
+:global(.react-calendar__navigation button:first-child) {
+  margin-right: auto;
+}
+/* label wrapper */
+:global(.react-calendar__navigation__label) {
+  text-align: center;
+}
+
+/* actual month text */
+:global(.react-calendar__navigation__label span) {
+  font-size: 1.6rem;
+  font-family: cursive;
+  font-weight: 600;
+}
+/* next button */
+:global(.react-calendar__navigation button:last-child) {
+  margin-left: auto;
 }
 
 /* basic wrapper cleanup */
 :global(.react-calendar) {
   border: none;
   width: 100%;
-}
-.hiddenCalendar {
-  display: none;
 }
 
 @media screen and (max-width: 385px) {
