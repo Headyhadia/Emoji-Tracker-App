@@ -88,7 +88,7 @@ const Tracker = () => {
             ‹
           </button>
 
-          <span>
+          <span className={styles.monthCalendar}>
             {selectedDate.toLocaleString("default", {
               month: "long",
               year: "numeric",

@@ -121,8 +121,33 @@
   background-color: #ddd;
   border-radius: 8px;
 }
-
+.hiddenCalendar {
+  display: none;
+}
+/* ---- react-calendar: navigation only ---- */
+:global(.react-calendar__month-view),
+:global(.react-calendar__month-view__days),
+:global(.react-calendar__month-view__weekdays) {
+  display: none;
+}
+.monthNav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 40px;
+  margin: 10px;
+}
+.monthCalendar {
+  font-family: cursive;
+  color: var(--color-primary);
+  font-size: 28px;
+  font-weight: 800;
+}
 @media screen and (max-width: 660px) {
+  .monthCalendar {
+    font-size: 18px;
+    font-weight: 800;
+  }
   .trackerContainer {
     padding: 10px;
   }
@@ -182,46 +207,6 @@
     margin-top: 12px;
     align-self: center;
   }
-}
-.hiddenCalendar {
-  display: none;
-}
-/* ---- react-calendar: navigation only ---- */
-:global(.react-calendar__month-view),
-:global(.react-calendar__month-view__days),
-:global(.react-calendar__month-view__weekdays) {
-  display: none;
-}
-
-/* keep navigation visible */
-:global(.react-calendar__navigation) {
-  display: flex;
-  align-items: center;
-  width: 100%;
-}
-:global(.react-calendar__navigation button:first-child) {
-  margin-right: auto;
-}
-/* label wrapper */
-:global(.react-calendar__navigation__label) {
-  text-align: center;
-}
-
-/* actual month text */
-:global(.react-calendar__navigation__label span) {
-  font-size: 1.6rem;
-  font-family: cursive;
-  font-weight: 600;
-}
-/* next button */
-:global(.react-calendar__navigation button:last-child) {
-  margin-left: auto;
-}
-
-/* basic wrapper cleanup */
-:global(.react-calendar) {
-  border: none;
-  width: 100%;
 }
 
 @media screen and (max-width: 385px) {
