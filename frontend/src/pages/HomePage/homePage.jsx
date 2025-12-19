@@ -2,10 +2,10 @@ import Tracker from "@/components/Tracker/Tracker";
 import DefaultEmoji from "@/components/DefaultEmoji/DefaultEmoji";
 import styles from "./homePage.module.css";
 
-const HomePage = () => {
+const HomePage = ({ dbEmojis }) => {
   return (
     <div className={styles.homePage}>
-      <Tracker />
+      <Tracker dbEmojis={dbEmojis} />
       <DefaultEmoji />
     </div>
   );

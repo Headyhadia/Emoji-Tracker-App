@@ -2,7 +2,7 @@ import styles from "./Tracker.module.css";
 import { useState } from "react";
 import Calendar from "react-calendar";
 
-const Tracker = () => {
+const Tracker = ({ dbEmojis }) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedEmoji, setSelectedEmoji] = useState(null);
   const [images, setImages] = useState({});
@@ -14,6 +14,16 @@ const Tracker = () => {
 
   const firstDayOfMonth = new Date(selectedYear, selectedMonth, 1);
   const daysInMonth = new Date(selectedYear, selectedMonth + 1, 0).getDate();
+
+  // Map API to images
+  const emojiImages = {
+    Happy: "src/assets/happy.png",
+    Good: "src/assets/good.png",
+    Neutral: "src/assets/neutral.png",
+    Sad: "src/assets/sad.png",
+    Angry: "src/assets/angry.png",
+  };
+
   // Array of weekdays to map days from date object
   const weekdays = [
     "Monday",
@@ -32,6 +42,16 @@ const Tracker = () => {
     { src: "src/assets/sad.png", label: "Sad" },
     { src: "src/assets/angry.png", label: "Angry" },
   ];
+  // dbEmojis = API data [{id, date, emoji}]
+  const emojiByDate = {};
+  dbEmojis.forEach((entry) => {
+    emojiByDate[entry.date] = emojiImages[capitalize(entry.emoji)];
+  });
+
+  function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
   // Emojis mapped into img
   const emojis = emojiItems.map((item, index) => {
     return (
@@ -113,7 +133,7 @@ const Tracker = () => {
 
         {/* Calendar grid */}
         <div className={styles.calendarBody}>
-          {cells.map((day, index) => (
+          {cells.map((day, index) => {
             <div key={index} className={styles.day}>
               {day && (
                 <>
@@ -121,11 +141,12 @@ const Tracker = () => {
                   {images[day] && <img src={images[day]} alt={`Day ${day}`} />}
                 </>
               )}
-            </div>
-          ))}
+            </div>;
+          })}
         </div>
       </div>
       {/* After calender grids */}
+
       <div className={styles.currentDate}>
         {`Today, ${weekdays[today.getDay() - 1]}`} {todayDate}
       </div>
