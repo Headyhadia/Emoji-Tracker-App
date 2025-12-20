@@ -13,8 +13,6 @@ function App() {
   useEffect(() => {
     API.get("emojis/")
       .then((res) => {
-        console.log("Raw response", res.data);
-        console.log("Is array?", Array.isArray(res.data));
         setDbEmojis(res.data);
         setError(null);
       })

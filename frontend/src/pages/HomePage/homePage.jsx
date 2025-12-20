@@ -1,9 +1,13 @@
 import Tracker from "@/components/Tracker/Tracker";
 import DefaultEmoji from "@/components/DefaultEmoji/DefaultEmoji";
 import styles from "./homePage.module.css";
+import { useState } from "react";
 
 const HomePage = ({ dbEmojis, loading, error }) => {
-  console.log("HomePage received dbEmojis:", dbEmojis);
+  const [fallbackEnabled, setFallbackEnabled] = useState(false);
+  const [fallbackEmojiSrc, setFallbackEmojiSrc] = useState(
+    "src/assets/good.png"
+  );
 
   if (loading) {
     return <div>Loading...</div>;
@@ -15,8 +19,12 @@ const HomePage = ({ dbEmojis, loading, error }) => {
 
   return (
     <div className={styles.homePage}>
-      <Tracker dbEmojis={dbEmojis} />
-      <DefaultEmoji />
+      <Tracker
+        dbEmojis={dbEmojis}
+        fallbackEnabled={fallbackEnabled}
+        fallbackEmojiSrc={fallbackEmojiSrc}
+      />
+      <DefaultEmoji setFallbackEnabled={setFallbackEnabled} />
     </div>
   );
 };

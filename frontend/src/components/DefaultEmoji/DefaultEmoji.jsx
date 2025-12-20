@@ -2,7 +2,7 @@ import styles from "./DefaultEmoji.module.css";
 import { Switch, FormControlLabel } from "@mui/material";
 import { useState } from "react";
 
-const DefaultEmoji = () => {
+const DefaultEmoji = ({ setFallbackEnabled }) => {
   const [enabled, setEnabled] = useState(false);
   return (
     <div className={styles.defaultEmojiContainer}>
@@ -13,7 +13,10 @@ const DefaultEmoji = () => {
           control={
             <Switch
               checked={enabled}
-              onChange={(e) => setEnabled(e.target.checked)}
+              onChange={(e) => {
+                setEnabled(e.target.checked);
+                setFallbackEnabled(e.target.checked);
+              }}
             />
           }
         />

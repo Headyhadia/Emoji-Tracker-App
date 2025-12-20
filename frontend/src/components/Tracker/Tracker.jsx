@@ -2,18 +2,25 @@ import styles from "./Tracker.module.css";
 import { useState, useEffect } from "react";
 import Calendar from "react-calendar";
 
-const Tracker = ({ dbEmojis }) => {
+const Tracker = ({ dbEmojis, fallbackEnabled, fallbackEmojiSrc }) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedEmoji, setSelectedEmoji] = useState(null);
   const [images, setImages] = useState({});
 
   const today = new Date();
+
   const selectedYear = selectedDate.getFullYear();
   const selectedMonth = selectedDate.getMonth();
   const todayDate = today.getDate();
 
   const firstDayOfMonth = new Date(selectedYear, selectedMonth, 1);
   const daysInMonth = new Date(selectedYear, selectedMonth + 1, 0).getDate();
+
+  const todayMidnight = new Date(
+    today.getFullYear(),
+    today.getMonth(),
+    today.getDate()
+  );
 
   const weekdays = [
     "Monday",
@@ -145,8 +152,17 @@ const Tracker = ({ dbEmojis }) => {
             return (
               <div key={index} className={styles.day}>
                 <span className={styles.dayNumber}>{day}</span>
-                {images[dateKey] && (
+                {images[dateKey] ? (
                   <img src={images[dateKey]} alt={`Day ${day}`} />
+                ) : (
+                  fallbackEnabled &&
+                  new Date(dateKey) <= todayMidnight && (
+                    <img
+                      src={fallbackEmojiSrc}
+                      alt="default mood"
+                      className={styles.fallbackEmoji}
+                    />
+                  )
                 )}
               </div>
             );

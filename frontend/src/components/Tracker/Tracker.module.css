@@ -121,6 +121,11 @@
   background-color: #ddd;
   border-radius: 8px;
 }
+.fallbackEmoji {
+  filter: grayscale(60%);
+  opacity: 0.8;
+}
+
 .hiddenCalendar {
   display: none;
 }
