@@ -9,10 +9,12 @@ function App() {
   const [dbEmojis, setDbEmojis] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  // Accessing the API data
   useEffect(() => {
     API.get("emojis/")
       .then((res) => {
+        console.log("Raw response", res.data);
+        console.log("Is array?", Array.isArray(res.data));
         setDbEmojis(res.data);
         setError(null);
       })
@@ -25,7 +27,7 @@ function App() {
   return (
     <>
       <Navbar />
-      <HomePage dbEmojis={dbEmojis} />
+      <HomePage dbEmojis={dbEmojis} loading={loading} error={error} />
     </>
   );
 }
