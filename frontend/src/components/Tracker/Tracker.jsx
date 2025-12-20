@@ -1,6 +1,7 @@
 import styles from "./Tracker.module.css";
 import { useState, useEffect } from "react";
 import Calendar from "react-calendar";
+import API from "@/api/api";
 
 const Tracker = ({ dbEmojis, fallbackEnabled, fallbackEmojiSrc }) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -89,15 +90,29 @@ const Tracker = ({ dbEmojis, fallbackEnabled, fallbackEmojiSrc }) => {
     cells.push(day);
   }
 
-  const handleSaveEntry = () => {
+  const handleSaveEntry = async () => {
     if (!selectedEmoji) return;
 
     const dateKey = selectedDate.toISOString().split("T")[0];
 
-    setImages((prev) => ({
-      ...prev,
-      [dateKey]: selectedEmoji,
-    }));
+    const labelFromSrc = Object.keys(emojiMapping).find(
+      (key) => emojiMapping[key] === selectedEmoji
+    );
+
+    try {
+      await API.post("emojis/", {
+        date: dateKey,
+        emoji: labelFromSrc,
+      });
+
+      // Update local state so calendar reflects change immediately
+      setImages((prev) => ({
+        ...prev,
+        [dateKey]: selectedEmoji,
+      }));
+    } catch (err) {
+      console.error("Failed to save emoji entry:", err);
+    }
   };
 
   return (

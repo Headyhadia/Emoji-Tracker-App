@@ -9,6 +9,7 @@ function App() {
   const [dbEmojis, setDbEmojis] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
   // Accessing the API data
   useEffect(() => {
     API.get("emojis/")

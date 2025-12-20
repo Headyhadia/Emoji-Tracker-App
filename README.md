@@ -66,6 +66,14 @@ Run:
 python manage.py seed_30_days_emojis
 ```
 
+### Reset DB & Seed Data
+
+```bash
+rm db.sqlite3
+python manage.py migrate
+python manage.py seed_emojis
+```
+
 ## Frontend
 
 ```bash
