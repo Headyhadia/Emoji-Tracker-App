@@ -93,7 +93,7 @@ const Tracker = ({ dbEmojis, fallbackEnabled, fallbackEmojiSrc }) => {
   const handleSaveEntry = async () => {
     if (!selectedEmoji) return;
 
-    const dateKey = selectedDate.toISOString().split("T")[0];
+    const todayKey = new Date().toISOString().split("T")[0];
 
     const labelFromSrc = Object.keys(emojiMapping).find(
       (key) => emojiMapping[key] === selectedEmoji
@@ -101,14 +101,14 @@ const Tracker = ({ dbEmojis, fallbackEnabled, fallbackEmojiSrc }) => {
 
     try {
       await API.post("emojis/", {
-        date: dateKey,
+        date: todayKey,
         emoji: labelFromSrc,
       });
 
       // Update local state so calendar reflects change immediately
       setImages((prev) => ({
         ...prev,
-        [dateKey]: selectedEmoji,
+        [todayKey]: selectedEmoji,
       }));
     } catch (err) {
       console.error("Failed to save emoji entry:", err);
