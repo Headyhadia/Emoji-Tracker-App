@@ -3,7 +3,9 @@ import { Switch, FormControlLabel } from "@mui/material";
 import { useState } from "react";
 
 const DefaultEmoji = ({ setFallbackEnabled }) => {
-  const [enabled, setEnabled] = useState(false);
+  const [enabled, setEnabled] = useState(() => {
+    return localStorage.getItem("fallbackEnabled") === "true";
+  });
   return (
     <div className={styles.defaultEmojiContainer}>
       <div className={styles.headingBtnContainer}>
@@ -16,6 +18,7 @@ const DefaultEmoji = ({ setFallbackEnabled }) => {
               onChange={(e) => {
                 setEnabled(e.target.checked);
                 setFallbackEnabled(e.target.checked);
+                localStorage.setItem("fallbackEnabled", e.target.checked);
               }}
             />
           }

@@ -4,7 +4,9 @@ import styles from "./homePage.module.css";
 import { useState } from "react";
 
 const HomePage = ({ dbEmojis, loading, error }) => {
-  const [fallbackEnabled, setFallbackEnabled] = useState(false);
+  const [fallbackEnabled, setFallbackEnabled] = useState(() => {
+    return localStorage.getItem("fallbackEnabled") === "true";
+  });
   const [fallbackEmojiSrc, setFallbackEmojiSrc] = useState(
     "src/assets/good.png"
   );
