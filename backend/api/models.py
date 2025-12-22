@@ -15,11 +15,6 @@ class EmojiEntry(models.Model):
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
 
-    # Database enforces one entry per date without DRF auto_injection of serializer validator because upsert is used in serializers  
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(fields=["date"], name="unique_date_entry")
-        ]
 
     def __str__(self):
         return f"{self.date} - {self.emoji}"
