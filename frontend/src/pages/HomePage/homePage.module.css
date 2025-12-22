@@ -6,6 +6,19 @@
   justify-content: center;
   align-items: flex-start; /* prevents vertical drift */
   background-color: #dad7d7;
+  position: relative;
+}
+.errorMessage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+
+  background: var(--color-tertiary);
+  color: #fff9e8;
+  padding: 12px 16px;
+  text-align: center;
 }
 
 /* Tablet and below */

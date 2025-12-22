@@ -52,6 +52,10 @@ const Tracker = ({ dbEmojis, fallbackEnabled, fallbackEmojiSrc }) => {
 
   // Load database emojis into images state when component mounts or dbEmojis changes
   useEffect(() => {
+    if (!dbEmojis || dbEmojis.length === 0) {
+      setImages({});
+      return;
+    }
     const emojiArray = Array.isArray(dbEmojis) ? dbEmojis : [dbEmojis];
     if (emojiArray && emojiArray.length > 0) {
       const loadedImages = {};

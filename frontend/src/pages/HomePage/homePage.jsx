@@ -15,20 +15,22 @@ const HomePage = ({ dbEmojis, loading, error }) => {
     return <div>Loading...</div>;
   }
 
-  if (error) {
-    return <div>Error loading data: {error.message}</div>;
-  }
-
-  return (
-    <div className={styles.homePage}>
-      <Tracker
-        dbEmojis={dbEmojis}
-        fallbackEnabled={fallbackEnabled}
-        fallbackEmojiSrc={fallbackEmojiSrc}
-      />
-      <DefaultEmoji setFallbackEnabled={setFallbackEnabled} />
-    </div>
-  );
+  if (error)
+    return (
+      <div className={styles.homePage}>
+        {error && (
+          <div className={styles.errorMessage}>
+            ⚠️ Could not load emoji data.
+          </div>
+        )}
+        <Tracker
+          dbEmojis={dbEmojis || []} // fallback to empty array
+          fallbackEnabled={fallbackEnabled}
+          fallbackEmojiSrc={fallbackEmojiSrc}
+        />
+        <DefaultEmoji setFallbackEnabled={setFallbackEnabled} />
+      </div>
+    );
 };
 
 export default HomePage;
