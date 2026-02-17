@@ -20,7 +20,7 @@ const Tracker = ({ dbEmojis, fallbackEnabled, fallbackEmojiSrc }) => {
   const todayMidnight = new Date(
     today.getFullYear(),
     today.getMonth(),
-    today.getDate()
+    today.getDate(),
   );
 
   const weekdays = [
@@ -52,22 +52,30 @@ const Tracker = ({ dbEmojis, fallbackEnabled, fallbackEmojiSrc }) => {
 
   // Load database emojis into images state when component mounts or dbEmojis changes
   useEffect(() => {
-    if (!dbEmojis || dbEmojis.length === 0) {
-      setImages({});
-      return;
-    }
-    const emojiArray = Array.isArray(dbEmojis) ? dbEmojis : [dbEmojis];
-    if (emojiArray && emojiArray.length > 0) {
-      const loadedImages = {};
+    // 1. Calculate what the new state SHOULD be
+    let nextImages = {};
+
+    if (dbEmojis && dbEmojis.length > 0) {
+      const emojiArray = Array.isArray(dbEmojis) ? dbEmojis : [dbEmojis];
       emojiArray.forEach((entry) => {
         // Map the emoji name to the image source
-        const emojiSrc = emojiMapping[entry.emoji.toLowerCase()];
-        if (emojiSrc) {
-          loadedImages[entry.date] = emojiSrc;
+        if (entry.emoji) {
+          const emojiSrc = emojiMapping[entry.emoji.toLowerCase()];
+          if (emojiSrc) {
+            nextImages[entry.date] = emojiSrc;
+          }
         }
       });
-      setImages(loadedImages);
     }
+
+    // 2. FIX: Only update state if the content is actually different.
+    // This prevents the infinite loop/cascading renders.
+    setImages((prevImages) => {
+      const isSame = JSON.stringify(prevImages) === JSON.stringify(nextImages);
+      return isSame ? prevImages : nextImages;
+    });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dbEmojis]);
 
   const emojis = emojiItems.map((item, index) => {
@@ -100,7 +108,7 @@ const Tracker = ({ dbEmojis, fallbackEnabled, fallbackEmojiSrc }) => {
     const todayKey = new Date().toISOString().split("T")[0];
 
     const labelFromSrc = Object.keys(emojiMapping).find(
-      (key) => emojiMapping[key] === selectedEmoji
+      (key) => emojiMapping[key] === selectedEmoji,
     );
 
     try {
@@ -165,7 +173,7 @@ const Tracker = ({ dbEmojis, fallbackEnabled, fallbackEmojiSrc }) => {
 
             // Create date string in YYYY-MM-DD format for this day
             const dateKey = `${selectedYear}-${String(
-              selectedMonth + 1
+              selectedMonth + 1,
             ).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
 
             return (

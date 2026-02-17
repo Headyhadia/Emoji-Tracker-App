@@ -7,30 +7,33 @@ const HomePage = ({ dbEmojis, loading, error }) => {
   const [fallbackEnabled, setFallbackEnabled] = useState(() => {
     return localStorage.getItem("fallbackEnabled") === "true";
   });
+
   const [fallbackEmojiSrc, setFallbackEmojiSrc] = useState(
-    "src/assets/good.png"
+    "src/assets/good.png",
   );
 
+  // 1. Handle Loading State
   if (loading) {
     return <div>Loading...</div>;
   }
 
-  if (error)
-    return (
-      <div className={styles.homePage}>
-        {error && (
-          <div className={styles.errorMessage}>
-            ⚠️ Could not load emoji data.
-          </div>
-        )}
-        <Tracker
-          dbEmojis={dbEmojis || []} // fallback to empty array
-          fallbackEnabled={fallbackEnabled}
-          fallbackEmojiSrc={fallbackEmojiSrc}
-        />
-        <DefaultEmoji setFallbackEnabled={setFallbackEnabled} />
-      </div>
-    );
+  // 2. Main Render (Always returns the UI)
+  return (
+    <div className={styles.homePage}>
+      {/* Show error message at the top if there is one, but don't stop rendering the app */}
+      {error && (
+        <div className={styles.errorMessage}>⚠️ Could not load emoji data.</div>
+      )}
+
+      <Tracker
+        dbEmojis={dbEmojis || []}
+        fallbackEnabled={fallbackEnabled}
+        fallbackEmojiSrc={fallbackEmojiSrc}
+      />
+
+      <DefaultEmoji setFallbackEnabled={setFallbackEnabled} />
+    </div>
+  );
 };
 
 export default HomePage;
